@@ -1,0 +1,33 @@
+EX240
+
+Vai ser restartado o kubelet dos masters: 
+
+#!/bin/bash
+# SSH into "utility" and run commands on each target node
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null lab@utility << 'EOF'
+for node in 192.168.50.10 192.168.50.11 192.168.50.12; do
+echo "Running command on $node..."
+ssh -i ~/.ssh/lab_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null core@$node "sudo date -s 'Thu Feb 13 11:34:49 UTC 2025' && sudo systemctl restart kubelet"
+done
+
+OBS: De dentro do servidor workstation, criar um script com esse conteudo acima e executar. 
+
+ 
+
+ 
+
+1. Execute o script da solução alternativa executando este comando na VM da estação de trabalho: ./workaround.sh 
+
+ 
+
+2. Execute este comando para aguardar a prontidão dos clusters de backend: ssh lab@utility "./wait.sh" 
+
+ 
+
+3. Aguarde cerca de 20 a 40 minutos e, assim que o comando da etapa 2 for encerrado automaticamente, você poderá executar o comando lab start para iniciar o laboratório. 
+
+ 
+
+ 
+
+https://issues.redhat.com/browse/PTL-14837
