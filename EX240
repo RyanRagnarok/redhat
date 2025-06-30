@@ -37,13 +37,17 @@ https://issues.redhat.com/browse/PTL-14837
 
 O lab demora uns 30 minutos para ficar bala:
 
+https://console-openshift-console.apps.ocp4.example.com/
+
 Usando o user do ivanzito:
 podman login -u='12881504|3scale' -p=eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIyM2JkZWY1Y2ZjYTk0ZmI0OWM5YTY2MWNlMGE4NDdhZCJ9.WGhz_6j-QWwE3KWjhd47o6x8ESuBx606AAvCEfxw90Zj4Lj2o95lMgmxPCy66Dwg05wxGUtaQAYcpJI3sDGk9A7-3uey2m6yaTqgR4K0yUWAfLUpTL39wG2J19ok0gNrrwbgzbCEH10mXfTmMeQJ4DWJ6wAc3tegrifSMK5KECXby7LqMV0-cYgA8hFqhryVh8iwrKshgroJ9WtDNnDuE8pwcqoKRrR4XAuCmo1Hajqv5IT1TMnfKoh9TKEx21dAA-nHOcUP9K_TmoFkcEKp5YHNKCEOggndd4ZHjTfL8xOkvIsv0eS1XV74ZJvnzUnme3hbk8u4nKGUhGESBW-QpFjK5zS_5NAPju4KXCTZSK4NZqWUdyQcrC4z_B3dt_hZzdw08ECcAaNUj8iYn4UUmL-PVmtS23AX7GUSuc4HipKJwkVkPlypnG-Pv5OjD2Qspdkfquxrb1Gh6kH0TTuMapOGfKBag_NOuwqFh3twNH9yizn3xM7Eo_-jKs67AvPT4s1PkSc-QLVDbsk9gcPixs3yhf4lpz51VxH-6waSruPvwh5IhRqt7K3PdqdSaGbCnJBjGIOQRaB7L0qpkFU3N2N7JymDZ1sPX4W9Lu432z58LTvzYyEwnXPy3et8LJlt91b6eu1bCfmv6oK9NTYjekoPjXXyqrBRsXk-6ERN7rs registry.redhat.io
+
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
 
 Criando container com o tenant já:
 podman run --name=3scale-toolbox \
 registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11 3scale remote \
-add 3scale-tenant -k https://9310a77352414a5d575dfb062cfa462440e3b1ce200d0f1e321ceaa7f19a6a0q3scale-admin.apps.ocp4.example.com
+add 3scale-tenant -k https://9310a77352414a5d575dfb062cfa462440e3b1ce200d0f1e321ceaa7f19a6a0q@3scale-admin.apps.ocp4.example.com
 
 OBS: Vamos precisar buildar uma nova imagem, pois se não toda hora vai precisar fazer isso ai para se conectar no 3scale
 
@@ -51,7 +55,8 @@ Build:
 podman commit 3scale-toolbox toolbox
 
 Criar um alias para conseguir executar os comandos no 3scale:
-alias 3scale="podman run toolbox 3scale -k"
+echo alias 3scale='podman run toolbox 3scale -k' >> .bashrc
+source .bashrc 
 
 Depois de fazer tudo isso, executar o lab novamente:
 lab start applications-products
