@@ -47,7 +47,7 @@ oc login -u admin -p redhat https://api.ocp4.example.com:6443
 Criando container com o tenant já:
 podman run --name=3scale-toolbox \
 registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11 3scale remote \
-add 3scale-tenant -k https://9310a77352414a5d575dfb062cfa462440e3b1ce200d0f1e321ceaa7f19a6a0q@3scale-admin.apps.ocp4.example.com
+add 3scale-tenant -k https://$(oc extract secret/system-seed -n 3scale --to=- --keys=ADMIN_ACCESS_TOKEN)@3scale-admin.apps.ocp4.example.com
 
 OBS: Vamos precisar buildar uma nova imagem, pois se não toda hora vai precisar fazer isso ai para se conectar no 3scale
 
