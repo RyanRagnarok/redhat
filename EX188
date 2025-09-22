@@ -1,0 +1,28 @@
+EX188
+06 Questões
+- Subir container com imagem fornecida, nome fornecido, mapear diretorio da maquina em /var/www/html, mapear porta 8081:80 e ver se abre pagina html
+
+- Subir dois containers coma mesma porta, só mudando o nome e variavel de ambiente e nome do container, os dois eram pra subir na porta 8080(HOST):80(Container), mas da erro. Então subi ele na 8088 que não iria ser usada.
+
+- Subir container com imagem fornecida, nome fornecido, copiar arquivos de duas pastas para dentro do container, reiniciar o nginx no container, mapear porta 8082:80 e ver se abre pagina html 
+
+- Editar dois Containerfile, build das duas imagens, tag das imagens e subir os pods. Primeiro pod e um mysql e o segundo um script que faz dump do banco em uma pasta.
+OBS: Parametros do containerfile que utilizei
+FROM
+COPY 
+ARG
+ENV
+ENTRYPOINT
+
+
+- Subir containers criando rede xxx, volume yyy e volume xyz. 
+Pod01 de nome xxxx, utilizando rede xxx, volume yyy montando dentro do pod em /var/lib/mysql.
+Pod02 de nome xxxx, utilizando rede xxx, volume xyz montando dentro do pod em /var/www/html.
+Pod03 de nome xxxx, utilizando rede xxx, volume xyz montando dentro do pod em /var/www/html e mapeando porta 8083:80 e testar e abrir pagina html.    
+
+- Subir containers criando rede xxx, volume yyy e volume xyz.
+Pod01 de nome xxxx, utilizando rede xxx, volume yyy montando dentro do pod em /var/lib/mysql. - POD DE BANCO
+Pod02 de nome xxxx, utilizando rede xxx, volume xyz montando dentro do pod em /var/www/html. - POD DA APP
+Pod03 de nome xxxx, utilizando rede xxx, volume xyz montando dentro do pod em /var/www/html e mapeando porta 8084:80 e testar e abrir pagina html. - POD NGINX    
+
+obs: Aplicação com erro 500, debugar o erro e arrumar.
