@@ -1,0 +1,261 @@
+## DO240 - 3Scale ##
+
+Guided Exercise: Creating a Lab Environment and Configuring the classroom environment
+
+Section 1.4: Guided Exercise: Installing Red Hat 3scale API Management --- OK <<<<<<<<---------------
+
+podman pull registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11
+
+alias 3scale="podman run registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11 3scale"
+
+podman run --name=toolbox-original \
+registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11 3scale remote \
+add 3scale-tenant -k https://ACCESS_TOKEN@3scale-admin.apps.ocp4.example.com
+
+podman commit toolbox-original toolbox
+
+alias 3scale="podman run toolbox 3scale -k"
+
+3scale remote list
+
+
+Section 2.2: Guided Exercise: Creating Backends and Products --- OK <<<<<<<<---------------
+
+Crie um produto chamado library_product
+Crie um plano de aplicação chamado east-branch-plan:
+Encontre o ID do desenvolvedor de exemplo chamado John (3scale account find 3scale-tenant john)
+Crie um aplicativo chamado east-branch-app
+
+
+Section 2.4: Guided Exercise: Creating Application Plans and Rate Limits --- OK <<<<<<<<---------------
+
+Adicione um novo plano de aplicativo ao API serviço com as seguintes configurações:
+
+Nome: Example Plan.
+
+Período de teste (dias): 15.
+
+Taxa de instalação: 1.00.
+
+Custo por mês: 10.00.
+
+
+Na New Backend seção crie um backend com os seguintes valores:
+
+Nome :Books
+
+Nome do sistema :books
+
+Descrição :Books API
+
+URL da base privada :http://books-api.apps.ocp4.example.com
+
+Navegue até Produtos e siga o link do produto da API .
+Navegue até a seção API > Integração > Backends e clique no botão Adicionar Backend .
+Navegue até a seção API > Integração > Configuração .
+Clique no botão Promover v. 1 para Staging APIcast para promover os APIbackends para Staging APIcast.
+
+
+Configure limites de taxa para o Books backend.
+Navegue até API > Aplicativos > Planos de aplicativos .
+Identifique o Plano de Exemplo e clique nele.
+Role para baixo até Métricas, métodos, limites e regras de precificação .
+Na seção Nível de backend , clique no backend Livros para expandir a seção de preços e limites.
+Clique no link Limites para expandir a seção de limites e clique no link Novo limite de uso .
+
+
+Defina os seguintes valores para os campos do modal Novo limite de uso .
+
+Período :minute
+Valor máx .:5
+
+Navegue até o gerenciamento de produtos no menu suspenso do painel superior e clique em API > Aplicativos > Listagem .
+Clique em Aplicativo do desenvolvedor .
+Na seção Alterar plano, selecione: Plano de exemplo e clique no botão Alterar plano .
+
+
+Adicione uma regra de mapeamento ao Booksbackend.
+Navegue até Backends e clique no backend Livros .
+Navegue até Livros > Regras de mapeamento e clique em Criar regra de mapeamento .
+
+Defina os seguintes valores para a nova regra de mapeamento e envie o formulário.
+
+Verbo :GET
+Padrão :/books
+Métrica :Hits
+Incrementar por :1
+
+
+
+Section 2.6: Guided Exercise: Managing API Versions --- OK <<<<<<<<--------------- Só Apostila
+
+Section 2.8: Guided Exercise: Configuring Service Discovery --- OK <<<<<<<<---------------  Só Apostila
+
+Add the service label discovery.3scale.net: "true".
+
+## 01 LABEL
+
+[student@workstation ~]$ oc label svc/books-api \
+  discovery.3scale.net="true"
+service/books-api labeled
+
+oc label svc/books-api discovery.3scale.net="true"
+
+
+oc label svc/teste discovery.3scale.net=true
+
+oc annotate svc/teste discovery.3scale.net/scheme="http"
+oc annotate svc/teste discovery.3scale.net/port="8080"
+
+## 02 ANNOTATE
+
+[student@workstation ~]$ oc annotate svc/books-api  \
+  discovery.3scale.net/port="8080"
+service/books-api annotated
+
+[student@workstation ~]$ oc annotate svc/books-api \
+  discovery.3scale.net/scheme="http"
+service/books-api annotated
+
+oc annotate svc/books-api discovery.3scale.net/port="8080"
+oc annotate svc/books-api discovery.3scale.net/scheme="http"
+
+
+oc adm policy add-role-to-user view system:serviceaccount:3scale:amp -n library
+
+[student@workstation ~]$ oc describe configmap system -n 3scale
+...output omitted...
+service_discovery.yml:
+
+  production:
+    enabled: <%=   = File.exists?(cluster_token_file_path ='/var/run/secrets/kubernetes.io/serviceaccount/token') %>
+    bearer_token: "<%= File.read(cluster_token_file_path) if cluster_token_file_exists %>"
+    authentication_method: service_account
+...output omitted...
+
+
+oc policy add-role-to-user view system:serviceaccount:3scale:amp -n library
+
+[student@workstation ~]$ oc policy add-role-to-user \
+  view system:serviceaccount:3scale:amp -n library
+clusterrole.rbac.authorization.k8s.io/view added: "system:serviceaccount:3scale:amp"
+
+
+
+
+Section 2.10: Guided Exercise: Creating Multiple Tenants in Red Hat 3Scale API Management --- OK <<<<<<<<---------------  Só Apostila
+
+Section 2.11: Quiz: Managing APIs with Red Hat 3scale API Management --- OK <<<<<<<<---------------  Só Apostila
+
+Section 3.2: Guided Exercise: Creating Self Managed APIcast Gateways --- OK <<<<<<<<---------------  Só Apostila
+
+[student@workstation ~]$ oc new-project apicast
+
+Complete the Install Operator form with the following options.
+
+Installed Namespace: apicast
+
+Navigate to https://3scale-admin.apps.ocp4.example.com, the 3scale tenant Admin Portal. Log in with the the following credentials:
+
+Username: admin
+
+Password: Password from the system-seed secret
+
+In the top pane, click Dashboard to display the drop-down menu. Then, click Account Settings.
+
+In the left pane, click Personal → Tokens.
+
+In the Access Tokens section, click Add Access Token. Complete the form according to the following values:
+
+Name: apicast
+
+Scopes: Account Management API
+
+Permission: Read Only
+
+Then, click Create Access token. Save the access token displayed.
+
+
+Create an OpenShift secret that contains the access token. You will use this secret later to authenticate the APIcast operator.
+
+[student@workstation ~]$ oc create secret generic apicast-secret \
+--from-literal=AdminPortalURL=https://ACCESS_TOKEN@3scale-admin.apps.ocp4.example.com
+secret/apicast-secret created
+
+
+
+
+
+Section 3.4: Guided Exercise: Configuring Standard APIcast Policies --- OK <<<<<<<<---------------  Só Apostila
+
+Section 4.2: Guided Exercise: Creating User Accounts for the 3Scale Admin Portal --- OK <<<<<<<<---------------  Só Apostila
+
+Section 4.4: Guided Exercise: Securing APIs with API Keys and API Key-pair Authentication --- OK <<<<<<<<---------------  Só Apostila
+
+Section 4.6: Guided Exercise: Securing APIs with Red Hat Single Sign-on and OAuth --- OK <<<<<<<<---------------  Só Apostila
+
+Section 5.2: Guided Exercise: Creating an API Developer Portal --- OK <<<<<<<<---------------  Só Apostila
+
+Section 5.4: Guided Exercise: Customizing an API Developer Portal
+
+Section 5.6: Guided Exercise: Importing OpenAPI Definitions
+
+Section 6.2: Guided Exercise: Configuring API Analytics
+
+Section 6.4: Guided Exercise: Monitoring 3Scale Infrastructure
+
+Section 7.2: Guided Exercise: Configuring Billing for APIs
+
+Section 7.4: Guided Exercise: Configuring Pricing Rules for API Consumption
+
+
+
+
+## WORKAROUND
+
+https://issues.redhat.com/browse/PTL-14837
+
+
+#!/bin/bash
+# SSH into "utility" and run commands on each target node
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null lab@utility << 'EOF'
+  for node in 192.168.50.10 192.168.50.11 192.168.50.12; do
+    echo "Running command on $node..."
+    ssh -i ~/.ssh/lab_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null core@$node "sudo date -s 'Thu Feb 13 11:34:49 UTC 2025' && sudo systemctl restart kubelet"
+  done
+EOF
+
+
+[student@workstation ~]$ oc login -u admin -p redhat api.ocp4.example.com:6443
+
+[student@workstation ~]$ oc login -u admin -p redhat api.ocp4.example.com:6443
+
+
+
+3scale 2.14 -> 2.15
+
+oc label svc/teste discovery.3scale.net=true
+
+oc annotate svc/teste discovery.3scale.net/port='8080'
+oc annotate svc/teste disvoery.3scale.net/scheme='http'
+
+oc policy add-role-to-user view system:serviceaccount:3scale:amp -n namespace 
+
+
+oc create generic teste --from-literal=AdminPortalURL=http://token@3
+
+
+
+
+### FILTRADOS #################
+
+Section 2.4: Guided Exercise: Creating Application Plans and Rate Limits
+Section 2.6: Guided Exercise: Managing API Versions
+Section 2.8: Guided Exercise: Configuring Service Discovery 
+Section 2.10: Guided Exercise: Creating Multiple Tenants in Red Hat 3Scale API Management
+Section 4.4: Guided Exercise: Securing APIs with API Keys and API Key-pair Authentication
+Section 5.2: Guided Exercise: Creating an API Developer Portal 
+Section 5.4: Guided Exercise: Customizing an API Developer Portal
+Section 6.2: Guided Exercise: Configuring API Analytics
+Section 7.2: Guided Exercise: Configuring Billing for APIs
+Section 7.4: Guided Exercise: Configuring Pricing Rules for API Consumption
