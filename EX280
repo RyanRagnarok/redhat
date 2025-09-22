@@ -1,0 +1,143 @@
+## PROVA EX280 ##
+Capítulo 3. Autenticação e autorização.
+Pagina:17
+HTPasswd(criação de usuarios) e oauth
+Exemplo:
+- Criação do arquivo e adicionar usuario: htpasswd -c -B -b <NOME DO ARQUIVO> <USUARIO> <SENHA> 
+- Adicionar usuario e senha: htpasswd -b <NOME DO ARQUIVO> <USUARIO> <SENHA>
+
+-------------------------------------------------------------------------------------------------------------
+
+Gerenciamento de grupos
+Pagina: 18
+
+new groups and add users in groups
+Exemplo:
+- Criação: oc adm groups new <NOME DO GRUPO>
+- Adicionar: oc adm groups add-users <GRUPO> <USER>
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 3. Autenticação e autorização
+
+Pagina: 18
+
+Dar permissão de cluster-admin para o usuario jobs
+- oc adm policy add-cluster-role-to-user cluster-admin jobs 
+
+-------------------------------------------------------------------------------------------------------------
+
+Remover o kubedmin - https://docs.openshift.com/container-platform/4.8/authentication/remove-kubeadmin.html#:~:text=After%20you%20define%20an%20identity,Container%20Platform%20must%20be%20reinstalled.
+Exemplo:
+- oc delete secrets kubeadmin -n kube-system
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 1. Gerenciamento declarativo de recursos
+
+Pagina: 5
+
+Criar 5 projetos
+Exemplo:
+- oc new-project <NOME_DO_PROJETO>
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 3. Autenticação e autorização
+
+Pagina: 18
+
+adicionar permissão em grupos para projeto específicos
+Exemplo:
+- oc adm policy add-role-to-group <CUSTERROLE> <GRUPO> -n <NAMESPACE>
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+livenessprobe
+Exemplo:
+- Adicionar probe em app
+
+-------------------------------------------------------------------------------------------------------------
+
+replicas -- Muito 
+Exemplo:
+- Escalar app
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+hpa - Não tem no curso 
+Exemplo:
+- Adicionar os resources no deployment antes de criar o HPA
+
+-------------------------------------------------------------------------------------------------------------
+
+route com tls
+
+-------------------------------------------------------------------------------------------------------------
+
+must-gather - Não tem no curso
+Exemplo:
+- oc adm must-gather 
+- pegar o clusterID: oc get clusterversion -o yaml | egrep -i clusterid
+- tar cavf CLUSTERID-nomedocurso.tar.gz <Arquivo gerado pelo must-gather>
+- Enviar o arquvo com um script
+
+-------------------------------------------------------------------------------------------------------------
+
+volume com nfs - Não tem no curso
+Exemplo:
+- Criar PV com NFS
+- Criar PVC (Validar e ficou Bound)
+- Montar o PVC na aplicação
+
+add secret secretkeyref in deployment
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 2. Implantar aplicativos empacotados
+
+helm install com chart da prova
+
+-------------------------------------------------------------------------------------------------------------
+
+Nesse caso, um service vai estar com uma config errada. Só mudar essa app=oranges para app=orange
+problem on service app=oranges
+
+-------------------------------------------------------------------------------------------------------------
+
+problem on pods with 80GB exceded quota or limits. 
+
+-------------------------------------------------------------------------------------------------------------
+
+oc create deployment, create service e create route com https
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 8. Segurança do aplicativo
+Pagina: Manutenção de clusters e nós com tarefas do cron do Kubernetes
+cronjob set serviceaccount e service account name 2 4 3
+
+-------------------------------------------------------------------------------------------------------------
+
+
+project template com limitrange
+
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 7. Gerenciar operadores do Kubernetes
+install operator -- Só instalar um operator, via console.
+
+-------------------------------------------------------------------------------------------------------------
+
+Capítulo 6. Habilitar o autoatendimento para desenvolvedores
+requests and limits on deployment
+
+-------------------------------------------------------------------------------------------------------------
+
+
+networkpolicy filtro no deployment, port, e project
