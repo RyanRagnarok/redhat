@@ -5,10 +5,11 @@ Vai ser restartado o kubelet dos masters:
 #!/bin/bash
 # SSH into "utility" and run commands on each target node
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null lab@utility << 'EOF'
-for node in 192.168.50.10 192.168.50.11 192.168.50.12; do
-echo "Running command on $node..."
-ssh -i ~/.ssh/lab_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null core@$node "sudo date -s 'Thu Feb 13 11:34:49 UTC 2025' && sudo systemctl restart kubelet"
-done
+  for node in 192.168.50.10 192.168.50.11 192.168.50.12; do
+    echo "Running command on $node..."
+    ssh -i ~/.ssh/lab_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null core@$node "sudo date -s 'Thu Feb 13 11:34:49 UTC 2025' && sudo systemctl restart kubelet"
+  done
+EOF
 
 OBS: De dentro do servidor workstation, criar um script com esse conteudo acima e executar. 
 
