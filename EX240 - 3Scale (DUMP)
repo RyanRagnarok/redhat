@@ -259,3 +259,43 @@ Section 5.4: Guided Exercise: Customizing an API Developer Portal
 Section 6.2: Guided Exercise: Configuring API Analytics
 Section 7.2: Guided Exercise: Configuring Billing for APIs
 Section 7.4: Guided Exercise: Configuring Pricing Rules for API Consumption
+
+
+
+
+
+
+
+
+
+
+David:
+
+EX240
+3scale 2.11
+Questões:
+1. OpenShift Service Discovery
+a. Configurar um Service do OpenShift para que o 3scale possa descobri-lo
+e criar um Backend.
+b. Criar um Product para o Backend criado anteriormente.
+c. Criar um Application Plan para o Product criado anteriormente.
+d. Criar um Costumer para o Application Plan criado anteriormente.
+2. API’s Versioning
+a. Configurar roteamento de versões de API’s 3scale baseado no contexto
+da URL, exemplo: http://myapi.com/v1/hello, http://myapi.com/v2/hello.
+b. Configurar roteamento de versões de API’s 3scale baseado no conteúdo
+do header da requisição.
+c. Criar métricas de hits para essas API’s.
+3. Developer Portal
+a. Criar um Tenant novo e limpá-lo.
+b. Criar um Developer Portal.
+c. Criar no Developer Portal e criar um página HTML com um <title> e um
+<h1>.
+4. Application Plan
+a. Configurar um trial em um Application Plan.
+b. Configurar diferentes assinaturas em um Application Plan.
+c. Configurar limites em um Application Plan.
+d. Configurar biling por hit em um Application Plan.
+e. Publicar uma API em dois APIcast’s. E talvez criar um APIcast?
+5. API Security
+a. Configurar autenticação no header de ID e Key
