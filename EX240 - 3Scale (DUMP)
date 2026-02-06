@@ -276,7 +276,7 @@ EX240
 Questões:
 1. OpenShift Service Discovery
 a. Configurar um Service do OpenShift para que o 3scale possa descobri-lo
-e criar um Backend.
+e criar o backend e product importando eles.
 b. Criar um Product para o Backend criado anteriormente.
 c. Criar um Application Plan para o Product criado anteriormente.
 d. Criar um Costumer para o Application Plan criado anteriormente.
@@ -287,8 +287,8 @@ b. Configurar roteamento de versões de API’s 3scale baseado no conteúdo
 do header da requisição.
 c. Criar métricas de hits para essas API’s.
 3. Developer Portal
-a. Criar um Tenant novo e limpá-lo.
-b. Criar um Developer Portal.
+a. Criar um Tenant novo e limpá-lo(Vai ter que limpar as coisas default do novo tenant, o project API e o BACKEND que vem default.)
+b. Criar um Developer Portal. (Deixar o developer portal sem o access code)
 c. Criar no Developer Portal e criar um página HTML com um <title> e um
 <h1>.
 4. Application Plan
